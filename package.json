@@ -10,7 +10,6 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-swagger-generator": "^1.1.13",
-    "express-validator": "^5.3.1",
     "helmet": "^3.16.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",

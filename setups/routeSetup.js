@@ -14,12 +14,10 @@ const addController = (req, res, next, endpoint) => {
             authenticationService.authenticate(req);
             const { permissions } = endpoint;
             const user = req.context.user;
-            console.log('Permission is ', permissions);
-            console.log('User is ', user);
             if (permissions) {
                 const isAuthorize = authorizationService.authorize(user, permissions);
                 if (!isAuthorize) {
-                    next(new NoAuthorizationError('No permission to access'));
+                   throw new NoAuthorizationError('No permission to access');
                 }
             }
 
