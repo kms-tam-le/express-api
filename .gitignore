@@ -1,0 +1,4 @@
+/node_modules/.bin
+/.vscode
+/node_modules
+/*.lock

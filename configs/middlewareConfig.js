@@ -4,13 +4,12 @@ const helmet = require("helmet");
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 
-const initHandler = require('../middlewares/initHandler');
-const errrorHandler = require('../middlewares/errorHandler');
+const initMiddleware = require('../middlewares/initMiddleware');
 
 exports.APP_MIDDLEWARES = [
     {
         name: 'INIT', 
-        method: initHandler.init,
+        method: initMiddleware.init,
         args: 'DEFAULT' //Get default args
     },
     {
