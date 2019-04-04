@@ -14,16 +14,18 @@ const getToken = (req) => {
   return token;
 }
 
-exports.authenticate = (req, res, next) => {
+exports.authenticate = (req) => {
   const token = getToken(req);
   if (!token) {
-    next(new NoAuthenticationError('No token to verify'));
+    throw new NoAuthenticationError('No token to verify');
   } else {
-  jwt.verify(token, APP_CONFIG.jwtSecrectKey, (err, decoded) => {
+    jwt.verify(token, APP_CONFIG.jwtSecrectKey, (err, decoded) => {
     if (err) {
-      next(new NoAuthenticationError('Invalid token'));
+      throw new NoAuthenticationError(err.message);
     } else {
-      //TODO: Check expire and put User info to context
+      console.log(decoded);
+      const { user } = decoded
+      req.context.user = user;
     }
   });
   };

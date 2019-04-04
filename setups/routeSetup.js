@@ -1,16 +1,31 @@
 const Joi = require('joi');
 const SchemaValidationError =require('../errors/SchemaValidationError');
 const NoAuthenticationError =require('../errors/NoAuthenticationError');
+const NoAuthorizationError =require('../errors/NoAuthorizationError');
 const webUtils = require('../utils/webUtils');
 const { HTTPCode } = require('../consts/HTTPCode');
 
-const addHandlers = (req, res, next, endpoint) => {
-    const isAuthenticate = endpoint.isAuthenticate || true;
-    if (isAuthenticate) {
-        const authenticationMiddleware = require('../middlewares/authenticationMiddleware');
-        authenticationMiddleware.authenticate(req, res, next);
+const authenticationService = require('../auth.services/authenticationService');
+const authorizationService = require('../auth.services/authorizationService');
+const addController = (req, res, next, endpoint) => {
+    try {
+        const authenticate = (endpoint.authenticate === undefined)? true : endpoint.authenticate;
+        if (authenticate) {
+            authenticationService.authenticate(req);
+            const { permissions } = endpoint;
+            const user = req.context.user;
+            if (permissions) {
+                const isAuthorize = authorizationService.authorize(user, permissions);
+                if (!isAuthorize) {
+                   throw new NoAuthorizationError('No permission to access');
+                }
+            }
+
+        }
+        endpoint.controller(req, res, next);
+    }catch(error) {
+        next(error);
     }
-    endpoint.controller(req, res, next);
 };
 
 
@@ -26,7 +41,6 @@ exports.setup = (app) => {
                 res.status(HTTPCode.OK).send(result);
             })
             .catch((err) => {
-                console.log(err);
                 next(new NoAuthenticationError('Failed to authentication'));
             });
         });
@@ -34,9 +48,8 @@ exports.setup = (app) => {
 
     config.GET_ENDPOINTS.forEach((endpoint) => {
         console.log('Register GET-', endpoint.url);
-        //app.get(endpoint.url, endpoint.controller);
         app.get(endpoint.url, (req, res, next) => {
-            addHandlers(req, res, next, endpoint);
+            addController(req, res, next, endpoint);
         });
     });
     config.POST_ENDPOINTS.forEach((endpoint) => {
@@ -46,14 +59,16 @@ exports.setup = (app) => {
             app.post(endpoint.url, (req, res, next) => {
                 Joi.validate(req.body, validationSchema)
                 .then((result) => {
-                    endpoint.controller(req, res, next);
+                    addController(req, res, next, endpoint);
                 })
                 .catch((err) => {
                     next(new SchemaValidationError(JSON.stringify(err.details)));
                 });
             });
         }else {
-            app.post(endpoint.url, endpoint.controller);
+            app.post(endpoint.url, (req, res, next) => {
+                addController(req, res, next, endpoint);
+            });
         }
     });
     console.log('##########API Endpoints setup complete:::::::::::');

@@ -29,7 +29,8 @@ exports.AUTHENTICATION_ENPOINTS = [
 exports.GET_ENDPOINTS= [
     {
         url: END_POINTS.HOME,
-        controller: homeController.home
+        controller: homeController.home,
+        authenticate: false
     },
     {
         url: END_POINTS.ERROR_THROWN,
@@ -41,14 +42,16 @@ exports.GET_ENDPOINTS= [
     },
     {
         url: END_POINTS.USER,
-        controller: userController.get
+        controller: userController.get,
+        permissions: ['Admin111']
     }
 ];
 
 exports.POST_ENDPOINTS = [
     {
         url: END_POINTS.SYNC,
-        controller: syncController.sync
+        controller: syncController.sync,
+        authenticate: false
     },
     {
         url: END_POINTS.USER,
