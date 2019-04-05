@@ -18,5 +18,8 @@
   },
   "scripts": {
     "start": "node_modules/.bin/nodemon app.js --exec babel-node --"
+  },
+  "devDependencies": {
+    "babel-register": "^6.26.0"
   }
 }
