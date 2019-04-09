@@ -23,7 +23,6 @@ exports.authenticate = (req) => {
     if (err) {
       throw new NoAuthenticationError(err.message);
     } else {
-      console.log(decoded);
       const { user } = decoded
       req.context.user = user;
     }

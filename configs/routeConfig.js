@@ -15,9 +15,11 @@ const END_POINTS = {
     ERROR: '/error',
     ERROR_THROWN: '/error/thrown',
     SYNC: '/sync',
-    USER: '/user',
+    Users: '/users',
     AUTHENTICATION: '/authentication'
-}
+};
+
+exports.END_POINTS = END_POINTS;
 
 exports.AUTHENTICATION_ENPOINTS = [
     {
@@ -41,9 +43,9 @@ exports.GET_ENDPOINTS= [
         controller: errorController.error
     },
     {
-        url: END_POINTS.USER,
+        url: END_POINTS.Users,
         controller: userController.get,
-        permissions: ['Admin111']
+        permissions: ['Admin']
     }
 ];
 
@@ -54,7 +56,7 @@ exports.POST_ENDPOINTS = [
         authenticate: false
     },
     {
-        url: END_POINTS.USER,
+        url: END_POINTS.Users,
         controller: userController.post,
         validationSchema: UserSchema.schema
     }

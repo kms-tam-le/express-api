@@ -3,7 +3,7 @@ const ErrorResponseEntity =require('../dtos/ErrorResponseEntity');
 
 exports.responseSuccess = (res, httpCode, data) => {
     res.status(httpCode).send(new ResponseEntity(httpCode, data));
-  };
+};
 
 exports.responseError = (res, error, next) => {  
     if (error.httpStatus) {
@@ -12,4 +12,4 @@ exports.responseError = (res, error, next) => {
     else {
         next(error);
     }
-  };
+};

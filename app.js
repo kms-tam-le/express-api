@@ -22,3 +22,6 @@ swaggerSetup.setup(app);
 app.listen(PORT, () => {
     console.log(`########## Server running on port ${PORT}`);
 });
+
+//For testing
+module.exports = app;
