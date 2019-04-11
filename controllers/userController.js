@@ -2,8 +2,8 @@ const { HTTPCode } = require('../consts/HTTPCode');
 const main = require('./mainController');
 const userService = require('../services/userService');
 
-exports.get = (req) => {
-  main.process(req, userService.get, null, HTTPCode.OK);
+exports.getUsers = (req) => {
+  main.process(req, userService.getUsers, null, HTTPCode.OK);
 };
 
 exports.post = (req) => {

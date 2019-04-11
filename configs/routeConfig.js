@@ -15,7 +15,7 @@ const END_POINTS = {
   ERROR: '/error',
   ERROR_THROWN: '/error/thrown',
   SYNC: '/sync',
-  Users: '/users',
+  Users: '/users/',
   AUTHENTICATION: '/authentication'
 };
 
@@ -44,7 +44,7 @@ exports.GET_ENDPOINTS = [
   },
   {
     url: END_POINTS.Users,
-    controller: userController.get,
+    controller: userController.getUsers,
     permissions: ['Admin']
   }
 ];

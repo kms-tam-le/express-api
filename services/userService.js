@@ -1,4 +1,4 @@
-exports.get = async () => [
+exports.getUsers = async () => [
   {
     userName: 'AAAA',
     email: 'noemail@abc.com'

@@ -16,6 +16,7 @@
         "linebreak-style": "off",
         "comma-dangle": "off",
         "no-undef": "off",
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        "no-console": "off"
     }
 }
