@@ -16,6 +16,7 @@ const END_POINTS = {
   ERROR_THROWN: '/error/thrown',
   SYNC: '/sync',
   Users: '/users/',
+  UserById: '/users/:id/',
   AUTHENTICATION: '/authentication'
 };
 
@@ -44,7 +45,12 @@ exports.GET_ENDPOINTS = [
   },
   {
     url: END_POINTS.Users,
-    controller: userController.getUsers,
+    controller: userController.getAll,
+    permissions: ['Admin']
+  },
+  {
+    url: END_POINTS.UserById,
+    controller: userController.getById,
     permissions: ['Admin']
   }
 ];
@@ -57,7 +63,8 @@ exports.POST_ENDPOINTS = [
   },
   {
     url: END_POINTS.Users,
-    controller: userController.post,
-    validationSchema: UserSchema.schema
+    controller: userController.createOne,
+    validationSchema: UserSchema.schema,
+    permissions: ['Admin']
   }
 ];

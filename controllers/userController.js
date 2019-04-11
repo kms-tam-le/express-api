@@ -2,11 +2,17 @@ const { HTTPCode } = require('../consts/HTTPCode');
 const main = require('./mainController');
 const userService = require('../services/userService');
 
-exports.getUsers = (req) => {
-  main.process(req, userService.getUsers, null, HTTPCode.OK);
+exports.getAll = (req) => {
+  main.process(req, userService.findAll, req.context, HTTPCode.OK);
 };
 
-exports.post = (req) => {
-  const user = req.body;
-  main.process(req, userService.post, user, HTTPCode.CREATED);
+exports.getById = (req) => {
+  const { id } = req.params;
+  main.process(req, userService.findById, id, HTTPCode.OK);
+};
+
+exports.createOne = (req) => {
+  const { context } = req;
+  context.data = req.body;
+  main.process(req, userService.createOne, context, HTTPCode.CREATED);
 };

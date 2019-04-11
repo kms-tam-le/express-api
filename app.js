@@ -3,6 +3,11 @@ import express from 'express';
 const PORT = 5000;
 const app = express();
 
+// Database setup first
+const databaseSetup = require('./setups/databaseSetup');
+
+databaseSetup.mongoDBSetup(app);
+
 // Init middlewares - should before init API endpoints
 const middlewareSetup = require('./setups/middlewareSetup');
 
