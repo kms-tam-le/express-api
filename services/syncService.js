@@ -1,3 +1,1 @@
-exports.sync = async (data) => {
-  return data;
-};
+exports.sync = async data => data;

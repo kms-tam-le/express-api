@@ -1,5 +1,5 @@
-const ValidationError =require('../errors/ValidationError');
+const ValidationError = require('../errors/ValidationError');
 
 exports.error = async () => {
-    throw new ValidationError('throw error');
+  throw new ValidationError('throw error');
 };
