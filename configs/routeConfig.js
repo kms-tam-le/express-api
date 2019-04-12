@@ -1,70 +1,40 @@
 /* Import controllers */
 const homeController = require('../controllers/homeController');
-const syncController = require('../controllers/syncController');
-const errorController = require('../controllers/errorController');
-const userController = require('../controllers/userController');
 
-/* Import validation schema */
-const UserSchema = require('../dtos.schemas/UserSchema');
+/* Import route config */
+const userRouteConfig = require('../configs.routes/userRouteConfig');
+const errorRouteConfig = require('../configs.routes/errorRouteConfig');
+const authRouteConfig = require('../configs.routes/authRouteConfig');
 
-/* Import aunthentication provider */
-const usernamePasswordAuthProvider = require('../auth.providers/usernamePasswordAuthProvider');
+const routeConfigs = [
+  userRouteConfig,
+  errorRouteConfig
+];
 
-const END_POINTS = {
-  HOME: '/',
-  ERROR: '/error',
-  ERROR_THROWN: '/error/thrown',
-  SYNC: '/sync',
-  Users: '/users/',
-  UserById: '/users/:id/',
-  AUTHENTICATION: '/authentication'
+exports.authEndpoints = () => authRouteConfig.endpoints();
+
+exports.getEndpoints = () => {
+  let endpoints = [
+    {
+      url: '/',
+      controller: homeController.home,
+      authenticate: false
+    }
+  ];
+  routeConfigs
+    .filter(config => typeof config.getEndpoints === 'function')
+    .forEach((config) => {
+      endpoints = endpoints.concat(config.getEndpoints());
+    });
+  return endpoints;
 };
 
-exports.END_POINTS = END_POINTS;
-
-exports.AUTHENTICATION_ENPOINTS = [
-  {
-    url: END_POINTS.AUTHENTICATION,
-    authenticate: usernamePasswordAuthProvider.authenticate
-  }
-];
-
-exports.GET_ENDPOINTS = [
-  {
-    url: END_POINTS.HOME,
-    controller: homeController.home,
-    authenticate: false
-  },
-  {
-    url: END_POINTS.ERROR_THROWN,
-    controller: errorController.throwError
-  },
-  {
-    url: END_POINTS.ERROR,
-    controller: errorController.error
-  },
-  {
-    url: END_POINTS.Users,
-    controller: userController.getAll,
-    permissions: ['Admin']
-  },
-  {
-    url: END_POINTS.UserById,
-    controller: userController.getById,
-    permissions: ['Admin']
-  }
-];
-
-exports.POST_ENDPOINTS = [
-  {
-    url: END_POINTS.SYNC,
-    controller: syncController.sync,
-    authenticate: false
-  },
-  {
-    url: END_POINTS.Users,
-    controller: userController.createOne,
-    validationSchema: UserSchema.schema,
-    permissions: ['Admin']
-  }
-];
+exports.postEndpoints = () => {
+  let endpoints = [];
+  routeConfigs
+    .filter(config => typeof config.postEndpoints === 'function')
+    .forEach((config) => {
+      endpoints = endpoints.concat(config.postEndpoints());
+    });
+  return endpoints;
+};

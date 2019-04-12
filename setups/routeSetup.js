@@ -32,7 +32,7 @@ const addController = (req, res, next, endpoint) => {
 exports.setup = (app) => {
   console.log('##########API Endpoints setup start:::::::::::');
 
-  config.AUTHENTICATION_ENPOINTS.forEach((endpoint) => {
+  config.authEndpoints().forEach((endpoint) => {
     console.log('Register AUTHENTICATION -', endpoint.url);
     app.post(endpoint.url, (req, res, next) => {
       endpoint.authenticate(req, res, next)
@@ -45,13 +45,13 @@ exports.setup = (app) => {
     });
   });
 
-  config.GET_ENDPOINTS.forEach((endpoint) => {
+  config.getEndpoints().forEach((endpoint) => {
     console.log('Register GET-', endpoint.url);
     app.get(endpoint.url, (req, res, next) => {
       addController(req, res, next, endpoint);
     });
   });
-  config.POST_ENDPOINTS.forEach((endpoint) => {
+  config.postEndpoints().forEach((endpoint) => {
     console.log('Register POST-', endpoint.url);
     const { validationSchema } = endpoint;
     if (validationSchema) {
