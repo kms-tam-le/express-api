@@ -5,7 +5,6 @@ exports.process = (req, serviceMethod, serviceArgument, httpCode) => {
   const { context } = req;
   asyncFn(serviceArgument)
     .then((result) => {
-      console.log('MAIN CONTROLLER::result receive = ', result);
       const { res } = context;
       const responseData = result || {};
       webUtils.responseSuccess(res, httpCode, responseData);
