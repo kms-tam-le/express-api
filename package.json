@@ -28,6 +28,7 @@
   },
   "scripts": {
     "start": "SET NODE_ENV=dev && node_modules/.bin/nodemon app.js --exec babel-node --",
+    "debug": "SET NODE_ENV=dev && node_modules/.bin/nodemon app.js --inspect-brk=9229 --exec babel-node --",
     "integration_test": "mocha --require babel-register integration.tests/**/*IT.js --timeout 10000",
     "test": "SET NODE_ENV=test && mocha --require babel-register tests/**/*.js",
     "lint": "./node_modules/.bin/eslint **/*.js"
