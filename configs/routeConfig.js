@@ -1,19 +1,24 @@
 /* Import controllers */
 const homeController = require('../controllers/homeController');
 
-/* Import route config */
-const userRouteConfig = require('../configs.routes/userRouteConfig');
-const errorRouteConfig = require('../configs.routes/errorRouteConfig');
-const authRouteConfig = require('../configs.routes/authRouteConfig');
+const commonUtils = require('../utils/commonUtils');
 
-const routeConfigs = [
-  userRouteConfig,
-  errorRouteConfig
-];
+const routeConfigDir = `${__dirname}/../configs.routes/`;
 
-exports.authEndpoints = () => authRouteConfig.endpoints();
+const routeConfigs = commonUtils.loadObjectsFromFolder(routeConfigDir);
+
+exports.authEndpoints = () => {
+  let endpoints = [];
+  routeConfigs
+    .filter(config => typeof config.authEndpoints === 'function')
+    .forEach((config) => {
+      endpoints = endpoints.concat(config.authEndpoints());
+    });
+  return endpoints;
+};
 
 exports.getEndpoints = () => {
+  // Append special endpoint here
   let endpoints = [
     {
       url: '/',

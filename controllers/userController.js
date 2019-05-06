@@ -1,5 +1,5 @@
 const { HTTPCode } = require('../consts/HTTPCode');
-const main = require('./mainController');
+const utils = require('../utils/webUtils');
 const userService = require('../services/userService');
 
 exports.getAll = (req) => {
@@ -8,11 +8,15 @@ exports.getAll = (req) => {
 
 exports.getById = (req) => {
   const { id } = req.params;
-  main.process(req, userService.findById, id, HTTPCode.OK);
+  utils.processRequest(req, userService.findById, id, HTTPCode.OK);
 };
 
 exports.createOne = (req) => {
   const { context } = req;
   context.data = req.body;
-  main.process(req, userService.createOne, context, HTTPCode.CREATED);
+  utils.processRequest(req, userService.createOne, context, HTTPCode.CREATED);
+};
+
+exports.updateOne = (req) => {
+  main.process(req, console.log, 'TBD', HTTPCode.OK);
 };

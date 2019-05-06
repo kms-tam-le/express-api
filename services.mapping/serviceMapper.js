@@ -6,6 +6,12 @@ const getDtoKey = (mapper, key) => {
   return customMapKey ? customMapKey.dtoField : key;
 };
 
+const getDbKey = (mapper, key) => {
+  const customMapper = mapper.customMapper() || [];
+  const customMapKey = customMapper.find(element => element.dtoField === key);
+  return customMapKey ? customMapKey.dbField : key;
+};
+
 const convertToDtoObject = (dbObject, mapper) => {
   const selectedMapper = mapper || defaultMapper;
   const excludeFields = selectedMapper.excludeDtoFields() || [];
@@ -20,5 +26,21 @@ const convertToDtoObject = (dbObject, mapper) => {
   return dtoObject;
 };
 
+const convertToDbObject = (dto, mapper) => {
+  const selectedMapper = mapper || defaultMapper;
+  const excludeFields = selectedMapper.excludeDBFields() || [];
+
+  const dbObject = {};
+  Object.keys(dto)
+    .filter(key => !excludeFields.includes(key))
+    .forEach((key) => {
+      const dbKey = getDbKey(selectedMapper, key);
+      dbObject[dbKey] = dto[key];
+    });
+  return dtoObject;
+};
+
 exports.toDto = (dbObject, mapper) => convertToDtoObject(element, mapper);
 exports.toDtos = (dbArray, mapper) => dbArray.map(element => convertToDtoObject(element, mapper));
+exports.toEntity = (dbObject, mapper) => convertToDbObject(element, mapper);
+exports.toEntities = (dbArray, mapper) => dbArray.map(item => convertToDbObject(item, mapper));
