@@ -37,10 +37,10 @@ const convertToDbObject = (dto, mapper) => {
       const dbKey = getDbKey(selectedMapper, key);
       dbObject[dbKey] = dto[key];
     });
-  return dtoObject;
+  return dbObject;
 };
 
 exports.toDto = (dbObject, mapper) => convertToDtoObject(element, mapper);
 exports.toDtos = (dbArray, mapper) => dbArray.map(element => convertToDtoObject(element, mapper));
-exports.toEntity = (dbObject, mapper) => convertToDbObject(element, mapper);
+exports.toEntity = (dbObject, mapper) => convertToDbObject(dbObject, mapper);
 exports.toEntities = (dbArray, mapper) => dbArray.map(item => convertToDbObject(item, mapper));

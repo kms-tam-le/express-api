@@ -3,7 +3,7 @@ const utils = require('../utils/webUtils');
 const userService = require('../services/userService');
 
 exports.getAll = (req) => {
-  main.process(req, userService.findAll, req.context, HTTPCode.OK);
+  utils.processRequest(req, userService.findAll, req.context, HTTPCode.OK);
 };
 
 exports.getById = (req) => {
@@ -18,5 +18,5 @@ exports.createOne = (req) => {
 };
 
 exports.updateOne = (req) => {
-  main.process(req, console.log, 'TBD', HTTPCode.OK);
+  utils.processRequest(req, console.log, 'TBD', HTTPCode.OK);
 };

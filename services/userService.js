@@ -17,6 +17,6 @@ exports.findById = async (id) => {
 
 exports.createOne = async (context) => {
   const { data } = context;
-  const result = await repository.createOne(new UserDocument(data), context);
+  const result = await repository.createOne(mapper.toEntity(data), context);
   return result;
 };
