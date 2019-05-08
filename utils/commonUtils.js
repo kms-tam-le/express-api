@@ -13,3 +13,10 @@ exports.loadObjectsFromFolder = (dir) => {
 
   return objArray;
 };
+
+exports.removeFields = (obj, fields = []) => {
+  fields.forEach((fieldName) => {
+    // eslint-disable-next-line
+    delete obj[fieldName];
+  });
+};

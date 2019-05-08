@@ -3,10 +3,11 @@ const baseRepository = require('./baseRepository');
 
 const collectionName = 'user';
 
-exports.createOne = async (user, context) => {
+exports.save = async (user, context) => {
+  console.log('context = ', context);
   const { mongoClient } = context;
   const mongoCollection = mongoClient.collection(collectionName);
-  return baseRepository.createOne(mongoCollection, user);
+  return baseRepository.save(mongoCollection, user);
 };
 
 exports.findAll = async (context) => {

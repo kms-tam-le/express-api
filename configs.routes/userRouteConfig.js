@@ -29,7 +29,7 @@ exports.getEndpoints = () => [
 exports.postEndpoints = () => [
   {
     url: END_POINTS.Users,
-    controller: userController.createOne,
+    controller: userController.save,
     validationSchema: UserSchema.schema,
     permissions: [role.Admin]
   }

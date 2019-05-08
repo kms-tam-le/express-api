@@ -1,10 +1,9 @@
 const repository = require('../mongo.repositories/userRepository');
-const UserDocument = require('../mongo.models/UserDocument');
-const mapper = require('../services.mapping/serviceMapper');
+const resolver = require('../mapper/resolver');
 
 exports.findAll = async (context) => {
   const result = await repository.findAll(context);
-  return mapper.toDtos(result);
+  return resolver.toDtos(result);
 };
 
 exports.findById = async (id) => {
@@ -15,8 +14,8 @@ exports.findById = async (id) => {
   };
 };
 
-exports.createOne = async (context) => {
+exports.save = async (context) => {
   const { data } = context;
-  const result = await repository.createOne(mapper.toEntity(data), context);
+  const result = await repository.save(resolver.toEntity(data), context);
   return result;
 };

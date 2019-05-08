@@ -11,12 +11,9 @@ exports.getById = (req) => {
   utils.processRequest(req, userService.findById, id, HTTPCode.OK);
 };
 
-exports.createOne = (req) => {
-  const { context } = req;
-  context.data = req.body;
-  utils.processRequest(req, userService.createOne, context, HTTPCode.CREATED);
-};
-
-exports.updateOne = (req) => {
-  utils.processRequest(req, console.log, 'TBD', HTTPCode.OK);
+exports.save = (req) => {
+  const { context, body } = req;
+  context.data = body;
+  const httpCode = body.id ? HTTPCode.OK : HTTPCode.CREATED;
+  utils.processRequest(req, userService.save, context, httpCode);
 };
