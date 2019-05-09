@@ -7,8 +7,10 @@ exports.getAll = (req) => {
 };
 
 exports.getById = (req) => {
-  const { id } = req.params;
-  utils.processRequest(req, userService.findById, id, HTTPCode.OK);
+  const { context, params } = req;
+  const { id } = params;
+  context.id = id;
+  utils.processRequest(req, userService.findById, context, HTTPCode.OK);
 };
 
 exports.save = (req) => {

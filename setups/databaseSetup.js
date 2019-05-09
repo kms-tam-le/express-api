@@ -14,7 +14,6 @@ exports.mongoDBSetup = (app) => {
       const { locals } = app;
       locals.mongoClient = client.db(mongoDB);
       console.log('SUCCESS to connect to Mongo DB::', mongoDB);
-      console.log('Connection pool size = ', locals.mongoClient.serverConfig.poolSize);
     })
     .catch((err) => {
       console.log('ERROR connecting Mongo server::', err);

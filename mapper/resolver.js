@@ -13,6 +13,9 @@ const getDbKey = (mapper, key) => {
 };
 
 const convertToDtoObject = (dbObject, mapper) => {
+  if (!dbObject) {
+    return null;
+  }
   const selectedMapper = mapper || defaultMapper;
   const excludeFields = selectedMapper.excludeDtoFields() || [];
 
@@ -40,7 +43,7 @@ const convertToDbObject = (dto, mapper) => {
   return dbObject;
 };
 
-exports.toDto = (dbObject, mapper) => convertToDtoObject(element, mapper);
+exports.toDto = (dbObject, mapper) => convertToDtoObject(dbObject, mapper);
 exports.toDtos = (dbArray, mapper) => dbArray.map(element => convertToDtoObject(element, mapper));
 exports.toEntity = (dbObject, mapper) => convertToDbObject(dbObject, mapper);
 exports.toEntities = (dbArray, mapper) => dbArray.map(item => convertToDbObject(item, mapper));

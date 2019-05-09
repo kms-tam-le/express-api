@@ -6,12 +6,11 @@ exports.findAll = async (context) => {
   return resolver.toDtos(result);
 };
 
-exports.findById = async (id) => {
+exports.findById = async (context) => {
+  const { id } = context;
   console.log('Get User By Id::', id);
-  return {
-    userName: id,
-    email: 'noemail@abc.com'
-  };
+  const result = await repository.findOne({ id }, context);
+  return resolver.toDto(result);
 };
 
 exports.save = async (context) => {
