@@ -1,14 +1,21 @@
 const Joi = require('joi');
 
 const LoginSchema = require('../dtos.schemas/LoginSchema');
-const User = require('../auth.models/User');
+const userRepository = require('../mongo.repositories/userRepository');
 
 const jwtService = require('../auth.services/jwtService');
-
-const getUser = login => new User(login.userName);
+const resolver = require('../mappers/resolver');
 
 exports.authenticate = async (req) => {
-  const login = req.body;
-  const valid = await Joi.validate(login, LoginSchema.schema);
-  return valid ? jwtService.generateToken(getUser(login)) : null;
+  const { context, body: login } = req;
+  const validated = await Joi.validate(login, LoginSchema.schema);
+  const userEntity = await userRepository.findOne({ userName: validated.userName }, context);
+  if (!userEntity) {
+    return null;
+  }
+  const userContext = resolver.toDto(userEntity);
+  // TODO: Verify password with encrypt
+  userContext.permission = ['Admin', 'Manager'];
+
+  return jwtService.generateToken(userContext);
 };

@@ -29,6 +29,7 @@ exports.setup = (app) => {
 exports.handlerError = (app) => {
   console.log('########## GLOBAL Error Handler setup:::::::::::');
   app.use((err, req, res, next) => {
+    console.log('Throwing error name = ', err.name);
     webUtils.responseError(res, err, next);
   });
 };
