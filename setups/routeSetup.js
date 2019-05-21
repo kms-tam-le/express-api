@@ -15,6 +15,7 @@ const addController = (req, res, next, endpoint) => {
       authenticationService.authenticate(req);
       const { permissions } = endpoint;
       const { user } = req.context;
+      console.log('User = ', user);
       if (permissions) {
         const isAuthorize = authorizationService.authorize(user, permissions);
         if (!isAuthorize) {
@@ -39,7 +40,8 @@ exports.setup = (app) => {
         .then((result) => {
           res.status(HTTPCode.OK).send(result);
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log('Authentication error:::', err);
           next(new NoAuthenticationError('Failed to authentication'));
         });
     });

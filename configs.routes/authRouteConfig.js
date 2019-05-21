@@ -5,5 +5,9 @@ exports.authEndpoints = () => [
   {
     url: '/authentication',
     authenticate: usernamePasswordAuthProvider.authenticate
-  }
+  },
+  {
+    url: '/generate-token',
+    authenticate: usernamePasswordAuthProvider.generateToken
+  },
 ];
